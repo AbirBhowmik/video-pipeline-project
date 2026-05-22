@@ -90,8 +90,8 @@ Example threshold output from my run:
 
 ```text
 recommended thresholds:
-blur_min=1400.98
-luma_min=118.62, luma_max=154.26, clip_max=0.0221
+blur_min=50.00
+luma_min=82.91, luma_max=136.14, clip_max=0.0356
 phash_min_dist=3
 plots saved in threshold_plots/
 ```
@@ -113,7 +113,7 @@ pytest -q
 Expected output:
 
 ```text
-1 passed
+1 passed in 2.72s
 ```
 
 The test checks that bounding-box conversion has less than 1 pixel round-trip error:
@@ -129,21 +129,7 @@ The pipeline emits JSON metrics every 5 seconds per stream.
 Example:
 
 ```json
-{
-  "stream": "cam_a",
-  "fps_capture": 12.0,
-  "fps_preprocess": 5.6,
-  "frame_age_ms_p50": 15.37,
-  "frame_age_ms_p99": 41.09,
-  "frames_dropped": 0,
-  "recovery_count": 1,
-  "quality_counters": {
-    "blur": 0,
-    "exposure": 0,
-    "stuck": 1646
-  },
-  "rss_mb": 165.33
-}
+
 ```
 
 ## Preprocessing Benchmark
