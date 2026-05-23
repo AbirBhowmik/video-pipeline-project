@@ -9,10 +9,10 @@ This project implements a CPU-only real-time video pipeline for `demo.mp4`. The 
 Thresholds were selected using `scripts/pick_thresholds.py` on `demo.mp4`, not chosen randomly. The experiment measured blur using variance of Laplacian, exposure using mean luma and clipped-pixel ratio, and frame similarity using perceptual hash distance. The resulting thresholds were:
 
 ```text
-blur_min = 1400.98
-luma_min = 118.62
-luma_max = 154.26
-clip_max = 0.0221
+blur_min = 50.00
+luma_min = 82.91
+luma_max = 136.14
+clip_max = 0.0356
 phash_min_dist = 3
 ```
 
@@ -20,18 +20,24 @@ Histogram plots were generated in `threshold_plots/` to justify these values.
 
 ## Test and Benchmark Results
 
-The letterbox inverse-transform unit test passed:
+The letterbox inverse-transform unit test passed on both systems. The project was tested on a laptop with 4 GB RAM and a desktop with 32 GB RAM.
 
 ```text
-pytest -q -> 1 passed
-```
+Laptop, 4 GB RAM:
+pytest -q -> 1 passed in 1.42s
+
+Desktop, 32 GB RAM:
+pytest -q -> 1 passed in 0.09s
 
 The preprocessing benchmark from the run was:
 
-```text
-cam_a preprocess_bench_ms cv2=4.839 numpy=5.329
-cam_b preprocess_bench_ms cv2=4.775 numpy=5.269
-```
+Laptop, 4 GB RAM:
+cam_a preprocess_bench_ms cv2=11.030 numpy=12.205
+cam_b preprocess_bench_ms cv2=10.712 numpy=12.180
+
+Desktop, 32 GB RAM:
+cam_a preprocess_bench_ms cv2=4.552 numpy=5.223
+cam_b preprocess_bench_ms cv2=4.482 numpy=5.224
 
 During the observed run, capture FPS stayed close to 12 FPS per stream, which indicates that real-time pacing was respected for this source video.
 

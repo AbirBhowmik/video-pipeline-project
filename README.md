@@ -113,7 +113,7 @@ pytest -q
 Expected output:
 
 ```text
-1 passed in 2.72s
+1 passed in 2.72s and 0.9s
 ```
 
 The test checks that bounding-box conversion has less than 1 pixel round-trip error:
@@ -128,8 +128,37 @@ The pipeline emits JSON metrics every 5 seconds per stream.
 
 Example:
 
-```json
 
+```json
+{
+  "stream": "cam_a",
+  "fps_capture": 29.81,
+  "fps_preprocess": 7.8,
+  "frame_age_ms_p50": 22.34,
+  "frame_age_ms_p99": 42.09,
+  "frames_dropped": 78,
+  "recovery_count": 0,
+  "quality_counters": {
+    "blur": 0,
+    "exposure": 0,
+    "stuck": 31
+  },
+  "rss_mb": 261.25
+}{
+  "stream": "cam_b",
+  "fps_capture": 29.61,
+  "fps_preprocess": 7.0,
+  "frame_age_ms_p50": 21.02,
+  "frame_age_ms_p99": 41.9,
+  "frames_dropped": 77,
+  "recovery_count": 0,
+  "quality_counters": {
+    "blur": 0,
+    "exposure": 0,
+    "stuck": 34
+  },
+  "rss_mb": 264.62
+}
 ```
 
 ## Preprocessing Benchmark
@@ -141,12 +170,20 @@ Two preprocessing implementations are included:
 1. `cv2.dnn.blobFromImage`
 2. hand-written NumPy preprocessing
 
-Example benchmark result from my run:
+The preprocessing benchmark was tested on two systems: a laptop with 4 GB RAM and a desktop with 32 GB RAM.
+
+### Laptop, 4 GB RAM
 
 ```text
-cam_a preprocess_bench_ms cv2=4.839 numpy=5.329
-cam_b preprocess_bench_ms cv2=4.775 numpy=5.269
+cam_a preprocess_bench_ms cv2=11.030 numpy=12.205
+cam_b preprocess_bench_ms cv2=10.712 numpy=12.180
 ```
+
+### Desktop, 32 GB RAM
+
+```text
+cam_a preprocess_bench_ms cv2=4.552 numpy=5.223
+cam_b preprocess_bench_ms cv2=4.482 numpy=5.224
 
 ## Shutdown
 
